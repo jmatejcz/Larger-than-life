@@ -18,6 +18,10 @@ To build the project simply run `maturin develop` in project directory.
 **To run the application:**\
 `python main.py`
 
+## Test
+To run unit tests:\
+`cargo test`
+
 ## Guide
 Basic game guide/tutorial will be added here later.
 
