@@ -13,8 +13,10 @@ Linux:  `source env/bin/activate`
 `pip install -r "requirements.txt"`
 
 ## Build
-To build the project simply run\
-`maturin develop`
+To build the project simply run `maturin develop` in project directory.
+
+**To run the application:**\
+`python main.py`
 
 ## Guide
 Basic game guide/tutorial will be added here later.
