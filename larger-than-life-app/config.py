@@ -1,0 +1,10 @@
+COLORS = {
+    "ALIVE": (180, 180, 180),
+    "DEAD": (35, 35, 35),
+    "BACKGROUND": (30, 30, 30)
+}
+
+DELAY_MS = 0.001
+SIZE_PX = 10
+CELLS_X = 80
+CELLS_Y = 60
