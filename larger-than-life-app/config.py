@@ -5,6 +5,8 @@ COLORS = {
 }
 
 DELAY_MS = 0.001
-SIZE_PX = 10
+SIZE_PX = 15
 CELLS_X = 80
 CELLS_Y = 60
+
+MENU_STATE_PATH = 'resources/menu_state.npy'

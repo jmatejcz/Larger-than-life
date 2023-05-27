@@ -1,6 +1,7 @@
 import larger_than_life as ltl_core
 import numpy as np
 import time
+from datetime import datetime
 import pygame
 import config
 
@@ -28,8 +29,24 @@ def update_visuals(screen, state):
                                          config.SIZE_PX - 1))
 
 
+def clear_state_animation(screen, state):
+    while np.sum(state) > 0:
+        for row, col in np.ndindex(state.shape):
+            r = np.random.uniform()
+            if r > 0.8:
+                state[row, col] = 0
+            color = config.COLORS["DEAD"] if state[row, col] == 0 else config.COLORS["ALIVE"]
+            pygame.draw.rect(screen, color, (col * config.SIZE_PX,
+                                             row * config.SIZE_PX,
+                                             config.SIZE_PX - 1,
+                                             config.SIZE_PX - 1))
+        pygame.display.update()
+        time.sleep(config.DELAY_MS)
+    return state
+
+
 def run(screen, state):
-    screen.fill(config.COLORS["BACKGROUND"])
+    state = clear_state_animation(screen, state)
     update_visuals(screen=screen, state=state)
     pygame.display.update()
 
@@ -54,6 +71,14 @@ def run(screen, state):
                     update_visuals(screen=screen, state=state)
                     pygame.display.update()
 
+                # save
+                if event.key == pygame.K_s:
+                    # TODO: implement saving animation + starting state
+                    save_run = True
+                    now = datetime.now()
+                    dt_string = now.strftime("%d-%m-%YT%H-%M-%S")
+                    np.save(f'runs/game_{dt_string}', state)
+
                 # return to menu
                 elif event.key == pygame.K_ESCAPE:
                     return
@@ -67,12 +92,6 @@ def run(screen, state):
                 state[state_y, state_x] = 0 if current_state == 1 else 1
                 update_visuals(screen=screen, state=state)
                 pygame.display.update()
-
-            # save run
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_s:
-                    save_run = True
-                    # TODO: implement saving animation + starting state
 
         if running:
             state = calculate_next_state(state=state)
