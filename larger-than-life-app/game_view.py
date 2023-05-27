@@ -6,18 +6,19 @@ import config
 
 
 def calculate_next_state(state):
+    # TODO: call rust for an update
+    # updated_state = ltl_core.get_next_state(state)
+
     # stubbed game logic
     for row, col in np.ndindex(state.shape):
         r = np.random.uniform()
         if r > 0.99:
             state[row, col] = 1
+
     return state
 
 
 def update_visuals(screen, state):
-    # TODO: call rust for an update
-    # updated_state = ltl_core.get_next_state(state)
-
     # project the board
     for row, col in np.ndindex(state.shape):
         color = config.COLORS["DEAD"] if state[row, col] == 0 else config.COLORS["ALIVE"]
@@ -27,17 +28,13 @@ def update_visuals(screen, state):
                                          config.SIZE_PX - 1))
 
 
-def run():
-    # initialize game window and starting grid state
-    pygame.init()
-    screen = pygame.display.set_mode((config.CELLS_X * config.SIZE_PX, config.CELLS_Y * config.SIZE_PX))
-    state = np.zeros((config.CELLS_Y, config.CELLS_X))
+def run(screen, state):
     screen.fill(config.COLORS["BACKGROUND"])
     update_visuals(screen=screen, state=state)
-
-    pygame.display.flip()
     pygame.display.update()
+
     running = False
+    save_run = False
 
     # main game loop
     while True:
@@ -48,15 +45,21 @@ def run():
                 pygame.quit()
                 return
 
-            # run / pause
+            # keyboard
             elif event.type == pygame.KEYDOWN:
+
+                # run / pause
                 if event.key == pygame.K_SPACE:
                     running = not running
                     update_visuals(screen=screen, state=state)
                     pygame.display.update()
 
-            # based on user input, change cell state
-            if pygame.mouse.get_pressed()[0]:
+                # return to menu
+                elif event.key == pygame.K_ESCAPE:
+                    return
+
+            # based on mouse input, change cell state
+            elif pygame.mouse.get_pressed()[0]:
                 pos = pygame.mouse.get_pos()
                 state_y = max(0, min(pos[1] // config.SIZE_PX, (config.CELLS_Y - 1)))
                 state_x = max(0, min(pos[0] // config.SIZE_PX, (config.CELLS_X - 1)))
@@ -64,11 +67,16 @@ def run():
                 update_visuals(screen=screen, state=state)
                 pygame.display.update()
 
-        screen.fill(config.COLORS["BACKGROUND"])
+            # save run
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_s:
+                    save_run = True
+                    # TODO: implement saving animation + starting state
 
         if running:
             state = calculate_next_state(state=state)
             update_visuals(screen=screen, state=state)
             pygame.display.update()
 
+        screen.fill(config.COLORS["BACKGROUND"])
         time.sleep(config.DELAY_MS)
