@@ -1,15 +1,20 @@
-import time
-
 import larger_than_life as ltl_core
 import numpy as np
+import time
 import pygame
 import config
 
 
-def update_state(screen, state):
-    # initialize dead grid for the next state
-    # updated_state = np.zeros((state.shape[0], state.shape[1]))
+def calculate_next_state(state):
+    # stubbed game logic
+    for row, col in np.ndindex(state.shape):
+        r = np.random.uniform()
+        if r > 0.99:
+            state[row, col] = 1
+    return state
 
+
+def update_visuals(screen, state):
     # TODO: call rust for an update
     # updated_state = ltl_core.get_next_state(state)
 
@@ -21,8 +26,6 @@ def update_state(screen, state):
                                          config.SIZE_PX - 1,
                                          config.SIZE_PX - 1))
 
-    return state
-
 
 def run():
     # initialize game window and starting grid state
@@ -30,7 +33,7 @@ def run():
     screen = pygame.display.set_mode((config.CELLS_X * config.SIZE_PX, config.CELLS_Y * config.SIZE_PX))
     state = np.zeros((config.CELLS_Y, config.CELLS_X))
     screen.fill(config.COLORS["BACKGROUND"])
-    update_state(screen=screen, state=state)
+    update_visuals(screen=screen, state=state)
 
     pygame.display.flip()
     pygame.display.update()
@@ -49,20 +52,23 @@ def run():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     running = not running
-                    update_state(screen=screen, state=state)
+                    update_visuals(screen=screen, state=state)
                     pygame.display.update()
 
             # based on user input, change cell state
             if pygame.mouse.get_pressed()[0]:
                 pos = pygame.mouse.get_pos()
-                state[pos[1] // config.SIZE_PX, pos[0] // config.SIZE_PX] = 1  # TODO: fix the division issue
-                update_state(screen=screen, state=state)
+                state_y = max(0, min(pos[1] // config.SIZE_PX, (config.CELLS_Y - 1)))
+                state_x = max(0, min(pos[0] // config.SIZE_PX, (config.CELLS_X - 1)))
+                state[state_y, state_x] = 1
+                update_visuals(screen=screen, state=state)
                 pygame.display.update()
 
         screen.fill(config.COLORS["BACKGROUND"])
 
         if running:
-            state = update_state(screen=screen, state=state)
+            state = calculate_next_state(state=state)
+            update_visuals(screen=screen, state=state)
             pygame.display.update()
 
         time.sleep(config.DELAY_MS)
