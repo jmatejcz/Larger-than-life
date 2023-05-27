@@ -10,6 +10,13 @@ def get_menu_state():
     return np.load(config.MENU_STATE_PATH)
 
 
+def project_menu(screen, state):
+    to_state = get_menu_state()
+    utils.state_animation(screen, state, to_state)
+    update_visuals(screen=screen, state=state)
+    pygame.display.update()
+
+
 def update_visuals(screen, state):
     # project the board
     for row, col in np.ndindex(state.shape):
@@ -44,12 +51,13 @@ def run():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
                     game_view.run(screen, state)
+                    project_menu(screen, state)
 
-                    menu_state = get_menu_state()
-                    utils.state_animation(screen, state, menu_state)
-
-                    update_visuals(screen=screen, state=state)
-                    pygame.display.update()
+                elif event.key == pygame.K_l:
+                    path = utils.prompt_file()
+                    to_state = np.load(path)
+                    game_view.run(screen, state, to_state)
+                    project_menu(screen, state)
 
         screen.fill(config.COLORS["BACKGROUND"])
         time.sleep(config.DELAY_MS)

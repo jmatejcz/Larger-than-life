@@ -2,6 +2,8 @@ import numpy as np
 import time
 import pygame
 import config
+import tkinter
+import tkinter.filedialog
 
 
 def state_animation(screen, from_state, to_state):
@@ -22,3 +24,12 @@ def state_animation(screen, from_state, to_state):
 
 def reset_state():
     return np.zeros((config.CELLS_Y, config.CELLS_X))
+
+
+def prompt_file():
+    """Create a Tk file dialog and cleanup when finished"""
+    top = tkinter.Tk()
+    top.withdraw()
+    file_name = tkinter.filedialog.askopenfilename(parent=top)
+    top.destroy()
+    return file_name

@@ -46,13 +46,15 @@ def clear_state_animation(screen, state):
     return state
 
 
-def run(screen, state):
-    clear_state = utils.reset_state()
-    state = utils.state_animation(screen, from_state=state, to_state=clear_state)
+def run(screen, state, to_state=None):
+    if to_state is None:
+        to_state = utils.reset_state()
+    state = utils.state_animation(screen, from_state=state, to_state=to_state)
     update_visuals(screen=screen, state=state)
     pygame.display.update()
 
     running = False
+    # TODO: implement saving animation
     save_run = False
 
     # main game loop
@@ -75,10 +77,9 @@ def run(screen, state):
 
                 # save
                 if event.key == pygame.K_s:
-                    # TODO: implement saving animation + starting state
                     save_run = True
                     now = datetime.now()
-                    dt_string = now.strftime("%d-%m-%YT%H-%M-%S")
+                    dt_string = now.strftime(config.DATETIME_FORMAT)
                     np.save(f'runs/game_{dt_string}', state)
 
                 # return to menu

@@ -10,3 +10,4 @@ CELLS_X = 80
 CELLS_Y = 60
 
 MENU_STATE_PATH = 'resources/menu_state.npy'
+DATETIME_FORMAT = '%d-%m-%YT%H-%M-%S'
