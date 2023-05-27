@@ -12,7 +12,7 @@ def get_menu_state():
 
 def project_menu(screen, state):
     to_state = get_menu_state()
-    utils.state_animation(screen, state, to_state)
+    utils.transition_states(screen, state, to_state)
     update_visuals(screen=screen, state=state)
     pygame.display.update()
 
@@ -47,7 +47,7 @@ def run():
                 pygame.quit()
                 return
 
-            # play
+            # handle keyboard input
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
                     game_view.run(screen, state)

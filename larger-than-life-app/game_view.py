@@ -1,7 +1,6 @@
 import larger_than_life as ltl_core
 import numpy as np
 import time
-from datetime import datetime
 import pygame
 import config
 import utils
@@ -9,7 +8,6 @@ import utils
 
 def calculate_next_state(state):
     # TODO: call rust for an update
-    # updated_state = ltl_core.get_next_state(state)
 
     # stubbed game logic
     for row, col in np.ndindex(state.shape):
@@ -30,32 +28,16 @@ def update_visuals(screen, state):
                                          config.SIZE_PX - 1))
 
 
-def clear_state_animation(screen, state):
-    while np.sum(state) > 0:
-        for row, col in np.ndindex(state.shape):
-            r = np.random.uniform()
-            if r > 0.8:
-                state[row, col] = 0
-            color = config.COLORS["DEAD"] if state[row, col] == 0 else config.COLORS["ALIVE"]
-            pygame.draw.rect(screen, color, (col * config.SIZE_PX,
-                                             row * config.SIZE_PX,
-                                             config.SIZE_PX - 1,
-                                             config.SIZE_PX - 1))
-        pygame.display.update()
-        time.sleep(config.DELAY_MS)
-    return state
-
-
 def run(screen, state, to_state=None):
     if to_state is None:
         to_state = utils.reset_state()
-    state = utils.state_animation(screen, from_state=state, to_state=to_state)
+    state = utils.transition_states(screen, from_state=state, to_state=to_state)
     update_visuals(screen=screen, state=state)
     pygame.display.update()
 
     running = False
-    # TODO: implement saving animation
     save_run = False
+    states_history = []
 
     # main game loop
     while True:
@@ -78,12 +60,11 @@ def run(screen, state, to_state=None):
                 # save
                 if event.key == pygame.K_s:
                     save_run = True
-                    now = datetime.now()
-                    dt_string = now.strftime(config.DATETIME_FORMAT)
-                    np.save(f'runs/game_{dt_string}', state)
 
                 # return to menu
                 elif event.key == pygame.K_ESCAPE:
+                    if save_run:
+                        utils.save_game(states_history)
                     return
 
             # based on mouse input, change cell state
@@ -100,6 +81,7 @@ def run(screen, state, to_state=None):
             state = calculate_next_state(state=state)
             update_visuals(screen=screen, state=state)
             pygame.display.update()
+            states_history.append(np.copy(state))
 
         screen.fill(config.COLORS["BACKGROUND"])
         time.sleep(config.DELAY_MS)
