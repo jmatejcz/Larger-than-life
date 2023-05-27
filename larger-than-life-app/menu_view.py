@@ -3,14 +3,11 @@ import time
 import pygame
 import config
 import game_view
+import utils
 
 
-def menu_state():
+def get_menu_state():
     return np.load(config.MENU_STATE_PATH)
-
-
-def reset_state():
-    return np.zeros((config.CELLS_Y, config.CELLS_X))
 
 
 def update_visuals(screen, state):
@@ -27,7 +24,7 @@ def run():
     # initialize game window and starting grid state
     pygame.init()
     screen = pygame.display.set_mode((config.CELLS_X * config.SIZE_PX, config.CELLS_Y * config.SIZE_PX))
-    state = menu_state()
+    state = get_menu_state()
     screen.fill(config.COLORS["BACKGROUND"])
     update_visuals(screen=screen, state=state)
 
@@ -46,9 +43,11 @@ def run():
             # play
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
-                    # state = reset_state()
                     game_view.run(screen, state)
-                    state = menu_state()
+
+                    menu_state = get_menu_state()
+                    utils.state_animation(screen, state, menu_state)
+
                     update_visuals(screen=screen, state=state)
                     pygame.display.update()
 

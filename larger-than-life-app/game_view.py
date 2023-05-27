@@ -4,6 +4,7 @@ import time
 from datetime import datetime
 import pygame
 import config
+import utils
 
 
 def calculate_next_state(state):
@@ -46,7 +47,8 @@ def clear_state_animation(screen, state):
 
 
 def run(screen, state):
-    state = clear_state_animation(screen, state)
+    clear_state = utils.reset_state()
+    state = utils.state_animation(screen, from_state=state, to_state=clear_state)
     update_visuals(screen=screen, state=state)
     pygame.display.update()
 
