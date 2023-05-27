@@ -63,7 +63,8 @@ def run(screen, state):
                 pos = pygame.mouse.get_pos()
                 state_y = max(0, min(pos[1] // config.SIZE_PX, (config.CELLS_Y - 1)))
                 state_x = max(0, min(pos[0] // config.SIZE_PX, (config.CELLS_X - 1)))
-                state[state_y, state_x] = 1
+                current_state = state[state_y, state_x]
+                state[state_y, state_x] = 0 if current_state == 1 else 1
                 update_visuals(screen=screen, state=state)
                 pygame.display.update()
 
