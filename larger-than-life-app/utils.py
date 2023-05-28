@@ -41,13 +41,16 @@ def prompt_file():
 def save_game(states):
     now = datetime.now()
     dt_string = now.strftime(config.DATETIME_FORMAT)
+
+    last_frame = min(len(states), config.MAX_ANIM_FRAMES)
+    states = states[:last_frame]
     np.save(f'runs/game_{dt_string}', states[0])
 
     def update_plot(frame):
         plt.clf()  # Clear the previous plot
         plt.imshow(states[frame], cmap='viridis')  # Plot the current frame
-        plt.title(f'Frame {frame + 1}')  # Add a title with the frame number
+        plt.title(f'Frame {frame + 1}')
 
     fig, ax = plt.subplots()
-    ani = FuncAnimation(fig, update_plot, frames=len(states), interval=30)
+    ani = FuncAnimation(fig, update_plot, frames=len(states), interval=60)
     ani.save('runs/game_' + dt_string + '.gif', writer='pillow')

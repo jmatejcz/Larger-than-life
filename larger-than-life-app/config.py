@@ -9,5 +9,7 @@ SIZE_PX = 15
 CELLS_X = 80
 CELLS_Y = 60
 
+MAX_ANIM_FRAMES = 500
+
 MENU_STATE_PATH = 'resources/menu_state.npy'
 DATETIME_FORMAT = '%d-%m-%YT%H-%M-%S'
