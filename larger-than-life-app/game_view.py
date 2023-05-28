@@ -37,7 +37,7 @@ def run(screen, state, to_state=None):
 
     running = False
     save_run = False
-    states_history = []
+    states_history = [np.copy(state)]
 
     # main game loop
     while True:

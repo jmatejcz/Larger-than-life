@@ -49,7 +49,7 @@ def save_game(states):
     def update_plot(frame):
         plt.clf()  # Clear the previous plot
         plt.imshow(states[frame], cmap='viridis')  # Plot the current frame
-        plt.title(f'Frame {frame + 1}')
+        plt.title(f'Iteration: {frame + 1}')
 
     fig, ax = plt.subplots()
     ani = FuncAnimation(fig, update_plot, frames=len(states), interval=60)
