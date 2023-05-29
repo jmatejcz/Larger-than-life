@@ -16,10 +16,10 @@ Linux:  `source env/bin/activate`
 To build the project simply run `maturin develop` in project directory.
 
 **To run the application:**\
-`python main.py`
+`.\larger-than-life-app\app.py`
 
 ## Test
-To run unit tests:\
+To run Rust unit tests:\
 `cargo test`
 
 ## Guide
