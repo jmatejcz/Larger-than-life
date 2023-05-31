@@ -20,7 +20,8 @@ def project_menu(screen, state):
 def update_visuals(screen, state):
     # project the board
     for row, col in np.ndindex(state.shape):
-        color = config.COLORS["DEAD"] if state[row, col] == 0 else config.COLORS["ALIVE"]
+        color = config.COLORS["DEAD"] if state[row,
+                                               col] == 0 else config.COLORS["ALIVE"]
         pygame.draw.rect(screen, color, (col * config.SIZE_PX,
                                          row * config.SIZE_PX,
                                          config.SIZE_PX - 1,
@@ -30,7 +31,8 @@ def update_visuals(screen, state):
 def run():
     # initialize game window and starting grid state
     pygame.init()
-    screen = pygame.display.set_mode((config.CELLS_X * config.SIZE_PX, config.CELLS_Y * config.SIZE_PX))
+    screen = pygame.display.set_mode(
+        (config.CELLS_X * config.SIZE_PX, config.CELLS_Y * config.SIZE_PX))
     state = get_menu_state()
     screen.fill(config.COLORS["BACKGROUND"])
     update_visuals(screen=screen, state=state)
@@ -60,4 +62,4 @@ def run():
                     project_menu(screen, state)
 
         screen.fill(config.COLORS["BACKGROUND"])
-        time.sleep(config.DELAY_MS)
+        time.sleep(config.DELAY_SEC)
