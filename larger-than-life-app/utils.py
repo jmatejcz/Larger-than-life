@@ -15,13 +15,14 @@ def transition_states(screen, from_state, to_state):
             r = np.random.uniform()
             if r > 0.8:
                 from_state[row, col] = to_state[row, col]
-            color = config.COLORS["DEAD"] if from_state[row, col] == 0 else config.COLORS["ALIVE"]
+            color = config.COLORS["DEAD"] if from_state[row,
+                                                        col] == 0 else config.COLORS["ALIVE"]
             pygame.draw.rect(screen, color, (col * config.SIZE_PX,
                                              row * config.SIZE_PX,
                                              config.SIZE_PX - 1,
                                              config.SIZE_PX - 1))
         pygame.display.update()
-        time.sleep(config.DELAY_MS)
+        time.sleep(config.DELAY_SEC)
     return from_state
 
 
