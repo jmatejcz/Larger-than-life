@@ -4,6 +4,7 @@ import pygame
 import config
 import game_view
 import utils
+import popups
 
 
 def get_menu_state():
@@ -13,29 +14,18 @@ def get_menu_state():
 def project_menu(screen, state):
     to_state = get_menu_state()
     utils.transition_states(screen, state, to_state)
-    update_visuals(screen=screen, state=state)
+    utils.update_visuals(screen=screen, state=state)
     pygame.display.update()
-
-
-def update_visuals(screen, state):
-    # project the board
-    for row, col in np.ndindex(state.shape):
-        color = config.COLORS["DEAD"] if state[row,
-                                               col] == 0 else config.COLORS["ALIVE"]
-        pygame.draw.rect(screen, color, (col * config.SIZE_PX,
-                                         row * config.SIZE_PX,
-                                         config.SIZE_PX - 1,
-                                         config.SIZE_PX - 1))
 
 
 def run():
     # initialize game window and starting grid state
     pygame.init()
-    screen = pygame.display.set_mode(
-        (config.CELLS_X * config.SIZE_PX, config.CELLS_Y * config.SIZE_PX))
+    game = utils.init_game()
+    screen = pygame.display.set_mode((config.CELLS_X * config.SIZE_PX, config.CELLS_Y * config.SIZE_PX))
     state = get_menu_state()
     screen.fill(config.COLORS["BACKGROUND"])
-    update_visuals(screen=screen, state=state)
+    utils.update_visuals(screen=screen, state=state)
 
     pygame.display.flip()
     pygame.display.update()
@@ -52,14 +42,26 @@ def run():
             # handle keyboard input
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
-                    game_view.run(screen, state)
+                    game_view.run(screen=screen, state=state, game=game)
                     project_menu(screen, state)
 
                 elif event.key == pygame.K_l:
-                    path = utils.prompt_file()
-                    to_state = np.load(path)
-                    game_view.run(screen, state, to_state)
-                    project_menu(screen, state)
+                    path = popups.prompt_file()
+                    if utils.is_path_not_empty(path):
+                        to_state = np.load(path)
+                        game_view.run(screen=screen, state=state, game=game, to_state=to_state)
+                        project_menu(screen, state)
+
+                elif event.key == pygame.K_r:
+                    underpop_lim, overpop_lim, birth_con, neighborhood_r = popups.select_rules()
+                    underpop_lim, overpop_lim, birth_con, neighborhood_r = utils.verify_rules(underpop_lim,
+                                                                                              overpop_lim,
+                                                                                              birth_con,
+                                                                                              neighborhood_r)
+                    game = utils.init_game(underpop_lim, overpop_lim, birth_con, neighborhood_r)
+
+                elif event.key == pygame.K_o:
+                    pass
 
         screen.fill(config.COLORS["BACKGROUND"])
-        time.sleep(config.DELAY_SEC)
+        time.sleep(config.APP_DELAY_SEC)
