@@ -58,7 +58,8 @@ def run():
                                                                                               overpop_lim,
                                                                                               birth_con,
                                                                                               neighborhood_r)
-                    game = utils.init_game(underpop_lim, overpop_lim, birth_con, neighborhood_r)
+                    
+                    utils.update_rules(game, underpop_lim, overpop_lim, birth_con, neighborhood_r)
 
                 elif event.key == pygame.K_o:
                     pass
