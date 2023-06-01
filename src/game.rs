@@ -14,6 +14,18 @@ impl Game {
             rules: rules,
         }
     }
+    pub fn update_rules(
+        &mut self,
+        underpopulation_limit: usize,
+        overpopulation_limit: usize,
+        come_alive_condition: usize,
+        neighborhood_range: usize,
+    ) {
+        self.rules.underpopulation_limit = underpopulation_limit;
+        self.rules.overpopulation_limit = overpopulation_limit;
+        self.rules.come_alive_condition = come_alive_condition;
+        self.rules.neighborhood_range = neighborhood_range;
+    }
 
     fn get_neighbours_indices(&self, row: usize, col: usize) -> Vec<(usize, usize)> {
         let mut indices: Vec<(usize, usize)> = Vec::new();
