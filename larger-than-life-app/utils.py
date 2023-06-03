@@ -38,13 +38,18 @@ def reset_state():
     return np.zeros((config.CELLS_Y, config.CELLS_X))
 
 
-def save_game(states):
+def get_date_time():
     now = datetime.now()
-    dt_string = now.strftime(config.DATETIME_FORMAT)
+    return now.strftime(config.DATETIME_FORMAT)
 
+
+def save_starting_state(state, dt_string):
+    np.save(f'runs/game_{dt_string}', state)
+
+
+def save_animation(states, dt_string):
     last_frame = min(len(states), config.MAX_ANIM_FRAMES)
     states = states[:last_frame]
-    np.save(f'runs/game_{dt_string}', states[0])
 
     def update_plot(frame):
         plt.clf()  # Clear the previous plot
@@ -57,10 +62,10 @@ def save_game(states):
 
 
 def is_path_not_empty(path):
-    if path != '':
-        return True
-    else:
+    if path is None or path == '':
         return False
+    else:
+        return True
 
 
 def verify_rules(underpopulation_limit,
@@ -94,9 +99,15 @@ def init_game(underpopulation_limit=config.UNDERPOP_LIM,
         height=config.CELLS_X,
     )
 
-def update_rules(game, underpopulation_limit=config.UNDERPOP_LIM,overpopulation_limit=config.OVERPOP_LIM,birth_con=config.BIRTH_CON,neighborhood_radius=config.NEIGHBORHOOD):
-    ltl_core.update_rules(game, underpopulation_limit = int(underpopulation_limit),
-                          overpopulation_limit = int(overpopulation_limit),
-                          come_alive_condition = int(birth_con),
-                          neighborhood_range = int(neighborhood_radius))
+
+def update_rules(game,
+                 underpopulation_limit=config.UNDERPOP_LIM,
+                 overpopulation_limit=config.OVERPOP_LIM,
+                 birth_con=config.BIRTH_CON,
+                 neighborhood_radius=config.NEIGHBORHOOD):
+    ltl_core.update_rules(game,
+                          underpopulation_limit=int(underpopulation_limit),
+                          overpopulation_limit=int(overpopulation_limit),
+                          come_alive_condition=int(birth_con),
+                          neighborhood_range=int(neighborhood_radius))
     return game

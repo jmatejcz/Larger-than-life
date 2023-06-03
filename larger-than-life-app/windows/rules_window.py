@@ -11,8 +11,8 @@ class RulesWindow:
         self.app = customtkinter.CTk()
         self.app.geometry("400x350")
         self.app.title("Rules")
-        customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark", "Light"
-        customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
+        customtkinter.set_appearance_mode("dark")
+        customtkinter.set_default_color_theme("blue")
 
         frame_1 = customtkinter.CTkFrame(master=self.app)
         frame_1.pack(pady=20, padx=60, fill="both", expand=True)

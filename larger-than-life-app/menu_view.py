@@ -41,18 +41,18 @@ def run():
 
             # handle keyboard input
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_s:
+                if event.key == pygame.K_s:  # start the game
                     game_view.run(screen=screen, state=state, game=game)
                     project_menu(screen, state)
 
-                elif event.key == pygame.K_l:
+                elif event.key == pygame.K_l:  # load starting state from file
                     path = popups.prompt_file()
                     if utils.is_path_not_empty(path):
                         to_state = np.load(path)
                         game_view.run(screen=screen, state=state, game=game, to_state=to_state)
                         project_menu(screen, state)
 
-                elif event.key == pygame.K_r:
+                elif event.key == pygame.K_r:  # open rules selection
                     underpop_lim, overpop_lim, birth_con, neighborhood_r = popups.select_rules()
                     underpop_lim, overpop_lim, birth_con, neighborhood_r = utils.verify_rules(underpop_lim,
                                                                                               overpop_lim,
@@ -61,8 +61,12 @@ def run():
                     
                     utils.update_rules(game, underpop_lim, overpop_lim, birth_con, neighborhood_r)
 
-                elif event.key == pygame.K_o:
-                    pass
+                elif event.key == pygame.K_p:  # open presets selection
+                    path = popups.select_preset()
+                    if utils.is_path_not_empty(path):
+                        to_state = np.load(path)
+                        game_view.run(screen=screen, state=state, game=game, to_state=to_state)
+                        project_menu(screen, state)
 
         screen.fill(config.COLORS["BACKGROUND"])
         time.sleep(config.APP_DELAY_SEC)

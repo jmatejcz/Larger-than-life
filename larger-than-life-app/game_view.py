@@ -18,6 +18,7 @@ def run(screen, state, game, to_state=None):
         screen, from_state=state, to_state=to_state)
     utils.update_visuals(screen=screen, state=state)
     pygame.display.update()
+    datetime = utils.get_date_time()
 
     running = False
     save_run = False
@@ -43,12 +44,13 @@ def run(screen, state, game, to_state=None):
 
                 # save
                 if event.key == pygame.K_s:
+                    utils.save_starting_state(state, datetime)
                     save_run = True
 
                 # return to menu
                 elif event.key == pygame.K_ESCAPE:
                     if save_run and len(states_history) > 0:
-                        utils.save_game(states_history)
+                        utils.save_animation(states_history, datetime)
                     return
 
             # based on mouse input, change cell state
@@ -64,10 +66,10 @@ def run(screen, state, game, to_state=None):
                 pygame.display.update()
 
         if running:
+            states_history.append(np.copy(state))
             state = calculate_next_state(game=game, state=state)
             utils.update_visuals(screen=screen, state=state)
             pygame.display.update()
-            states_history.append(np.copy(state))
 
         screen.fill(config.COLORS["BACKGROUND"])
         if running:

@@ -1,6 +1,9 @@
 import tkinter
 import tkinter.filedialog
-from windows.rules_selection_window import RulesWindow
+from copy import deepcopy
+
+from windows.rules_window import RulesWindow
+from windows.presets_window import PresetsWindow
 
 
 def prompt_file():
@@ -19,3 +22,10 @@ def select_rules():
     birth_condition = window.overpopulation_limit
     neighborhood_radius = window.neighborhood_radius
     return underpopulation_limit, overpopulation_limit, birth_condition, neighborhood_radius
+
+
+def select_preset():
+    window = PresetsWindow()
+    window.run()
+    selected_preset = window.selected_preset
+    return selected_preset
