@@ -47,12 +47,28 @@ fn get_next_gen_board(game: &mut Game, board_state: &PyArrayDyn<f64>) -> PyResul
         Ok(vec_array)
     })
 }
-
+#[pyfunction]
+fn update_rules(
+    game: &mut Game,
+    underpopulation_limit: usize,
+    overpopulation_limit: usize,
+    come_alive_condition: usize,
+    neighborhood_range: usize,
+) -> PyResult<()> {
+    game.update_rules(
+        underpopulation_limit,
+        overpopulation_limit,
+        come_alive_condition,
+        neighborhood_range,
+    );
+    Ok(())
+}
 /// A Python module implemented in Rust.
 #[pymodule]
 fn larger_than_life(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(get_next_gen_board, m)?)?;
     m.add_class::<Game>()?;
     m.add_function(wrap_pyfunction!(init_game, m)?)?;
+    m.add_function(wrap_pyfunction!(update_rules, m)?)?;
     Ok(())
 }
