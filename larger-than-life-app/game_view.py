@@ -21,7 +21,7 @@ def run(screen, state, game, to_state=None):
 
     running = False
     save_run = False
-    states_history = [np.copy(state)]
+    states_history = []
 
     # main game loop
     while True:
@@ -47,7 +47,7 @@ def run(screen, state, game, to_state=None):
 
                 # return to menu
                 elif event.key == pygame.K_ESCAPE:
-                    if save_run:
+                    if save_run and len(states_history) > 0:
                         utils.save_game(states_history)
                     return
 
