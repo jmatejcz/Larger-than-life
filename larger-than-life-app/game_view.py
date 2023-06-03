@@ -45,7 +45,6 @@ def run(screen, state, game, to_state=None):
                 # save
                 if event.key == pygame.K_s:
                     utils.save_starting_state(state, datetime)
-                    states_history = [np.copy(state)]
                     save_run = True
 
                 # return to menu
