@@ -2,11 +2,13 @@ use crate::board::Board;
 use crate::rules::Rules;
 use pyo3::prelude::*;
 use std::cmp;
+
 #[pyclass]
 pub struct Game {
     pub board: Board,
     rules: Rules,
 }
+
 impl Game {
     pub fn new(width: usize, height: usize, rules: Rules) -> Game {
         Game {
@@ -14,6 +16,7 @@ impl Game {
             rules: rules,
         }
     }
+
     pub fn update_rules(
         &mut self,
         underpopulation_limit: usize,
@@ -28,6 +31,7 @@ impl Game {
     }
 
     fn get_neighbours_indices(&self, row: usize, col: usize) -> Vec<(usize, usize)> {
+        // each cell has 9 neighbours? fix
         let mut indices: Vec<(usize, usize)> = Vec::new();
         let range: usize = self.rules.neighborhood_range;
 
@@ -45,6 +49,7 @@ impl Game {
 
         indices
     }
+
     fn get_values_of_indices(
         &self,
         indices: Vec<(usize, usize)>,
@@ -56,6 +61,7 @@ impl Game {
         }
         values
     }
+
     fn verify_state(&self, current_state: f64, neighbours_values: Vec<f64>) -> f64 {
         let mut alive_count: usize = 0;
         for val in neighbours_values {
@@ -63,30 +69,44 @@ impl Game {
                 alive_count += 1;
             }
         }
-        if current_state == 1.0 {
-            if alive_count >= self.rules.underpopulation_limit
-                && alive_count <= self.rules.overpopulation_limit
-            {
-                return 1.0;
-            } else {
+
+        if current_state == 1.0 { // cell is alive
+
+            // below is a tmp solution, refactor!
+            alive_count -= 1;
+
+            if alive_count > self.rules.overpopulation_limit {
                 return 0.0;
             }
-        } else if alive_count == self.rules.come_alive_condition {
+
+            if alive_count < self.rules.underpopulation_limit {
+                return 0.0;
+            }
+
             return 1.0;
-        } else {
+        } else { // cell is dead
+            if alive_count == self.rules.come_alive_condition {
+                return 1.0;
+            }
             return 0.0;
         }
     }
+
     pub fn next_generation(&mut self, board_state: &mut Vec<Vec<f64>>) {
+        // this .clone() is probably suboptimal, its a tmp solution
+        // that needs a refactor.
+        let mut new_board: Vec<Vec<f64>> = board_state.clone();
         for row in 0..self.board.height {
             for col in 0..self.board.width {
                 let indices: Vec<(usize, usize)> = self.get_neighbours_indices(row, col);
                 let values = self.get_values_of_indices(indices, board_state);
                 let state = self.verify_state(board_state[col][row], values);
-                board_state[col][row] = state;
+                new_board[col][row] = state;
             }
         }
+        *board_state = new_board;
     }
+
     // pub fn print_board(&self) {
     //     self.board.print()
     // }
