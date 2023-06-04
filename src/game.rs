@@ -64,10 +64,12 @@ impl Game {
 
         for x in start_x..=end_x {
             for y in start_y..=end_y {
+                if x == col && y == row {
+                    continue;
+                }
                 indices.push((x, y));
             }
         }
-
         indices
     }
 
@@ -91,11 +93,8 @@ impl Game {
             }
         }
 
-        if current_state == 1.0 { // cell is alive
-
-            // below is a tmp solution, refactor!
-            alive_count -= 1;
-
+        if current_state == 1.0 {
+            // cell is alive
             if alive_count > self.rules.overpopulation_limit {
                 return 0.0;
             }
@@ -105,7 +104,8 @@ impl Game {
             }
 
             return 1.0;
-        } else { // cell is dead
+        } else { 
+            // cell is dead
             if alive_count == self.rules.come_alive_condition {
                 return 1.0;
             }

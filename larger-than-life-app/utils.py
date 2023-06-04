@@ -100,14 +100,3 @@ def init_game(underpopulation_limit=config.UNDERPOP_LIM,
     )
 
 
-def update_rules(game,
-                 underpopulation_limit=config.UNDERPOP_LIM,
-                 overpopulation_limit=config.OVERPOP_LIM,
-                 birth_con=config.BIRTH_CON,
-                 neighborhood_radius=config.NEIGHBORHOOD):
-    ltl_core.update_rules(game,
-                          underpopulation_limit=int(underpopulation_limit),
-                          overpopulation_limit=int(overpopulation_limit),
-                          come_alive_condition=int(birth_con),
-                          neighborhood_range=int(neighborhood_radius))
-    return game
