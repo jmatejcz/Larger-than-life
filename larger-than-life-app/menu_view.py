@@ -58,8 +58,7 @@ def run():
                                                                                               overpop_lim,
                                                                                               birth_con,
                                                                                               neighborhood_r)
-                    
-                    utils.update_rules(game, underpop_lim, overpop_lim, birth_con, neighborhood_r)
+                    game.update_rules(underpop_lim, overpop_lim, birth_con, neighborhood_r)
 
                 elif event.key == pygame.K_p:  # open presets selection
                     path = popups.select_preset()
