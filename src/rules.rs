@@ -1,3 +1,6 @@
+use pyo3::prelude::*;
+#[pyclass]
+#[derive(Clone)]
 pub struct Rules {
     // for now these rules are applied
     // Any live cell with fewer than two live neighbours dies (referred to as underpopulation or exposure[2]).
@@ -9,7 +12,6 @@ pub struct Rules {
     pub overpopulation_limit: usize,
     pub come_alive_condition: usize,
     pub neighborhood_range: usize,
-
 }
 
 impl Rules {
