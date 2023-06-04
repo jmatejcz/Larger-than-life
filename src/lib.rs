@@ -1,10 +1,8 @@
-use std::usize;
-
-use game::Game;
 use pyo3::prelude::*;
-mod board;
-mod game;
-mod rules;
+use std::usize;
+pub mod board;
+pub mod game;
+pub mod rules;
 
 #[pyfunction]
 fn init_game(
@@ -30,7 +28,7 @@ fn init_game(
 
 #[pymodule]
 fn larger_than_life(_py: Python, m: &PyModule) -> PyResult<()> {
-    m.add_class::<Game>()?;
+    m.add_class::<game::Game>()?;
     m.add_function(wrap_pyfunction!(init_game, m)?)?;
     Ok(())
 }
