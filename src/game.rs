@@ -19,8 +19,6 @@ impl Game {
         }
     }
 
-    
-    
     pub fn next_generation(&mut self, board_state: Vec<Vec<f64>>) -> Vec<Vec<f64>>{
         // this .clone() is probably suboptimal, its a tmp solution
         // that needs a refactor.
@@ -36,9 +34,6 @@ impl Game {
         new_board
     }
 
-}
-
-impl Game {
     pub fn update_rules(
         &mut self,
         underpopulation_limit: usize,
@@ -51,6 +46,10 @@ impl Game {
         self.rules.come_alive_condition = come_alive_condition;
         self.rules.neighborhood_range = neighborhood_range;
     }
+}
+
+impl Game {
+    
 
     fn get_neighbours_indices(&self, row: usize, col: usize) -> Vec<(usize, usize)> {
         // each cell has 9 neighbours? fix
