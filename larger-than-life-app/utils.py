@@ -1,5 +1,6 @@
 from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
+import matplotlib
 from datetime import datetime
 import numpy as np
 import time
@@ -48,6 +49,7 @@ def save_starting_state(state, dt_string):
 
 
 def save_animation(states, dt_string):
+    matplotlib.use('agg')
     last_frame = min(len(states), config.MAX_ANIM_FRAMES)
     states = states[:last_frame]
 
