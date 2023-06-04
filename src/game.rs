@@ -9,7 +9,9 @@ pub struct Game {
     rules: Rules,
 }
 
+#[pymethods]
 impl Game {
+    #[new]
     pub fn new(width: usize, height: usize, rules: Rules) -> Game {
         Game {
             board: Board::new(width, height),
@@ -17,6 +19,26 @@ impl Game {
         }
     }
 
+    
+    
+    pub fn next_generation(&mut self, board_state: Vec<Vec<f64>>) -> Vec<Vec<f64>>{
+        // this .clone() is probably suboptimal, its a tmp solution
+        // that needs a refactor.
+        let mut new_board: Vec<Vec<f64>> = board_state.clone();
+        for row in 0..self.board.height {
+            for col in 0..self.board.width {
+                let indices: Vec<(usize, usize)> = self.get_neighbours_indices(row, col);
+                let values = self.get_values_of_indices(indices, &board_state);
+                let state = self.verify_state(board_state[col][row], values);
+                new_board[col][row] = state;
+            }
+        }
+        new_board
+    }
+
+}
+
+impl Game {
     pub fn update_rules(
         &mut self,
         underpopulation_limit: usize,
@@ -91,27 +113,4 @@ impl Game {
             return 0.0;
         }
     }
-
-    pub fn next_generation(&mut self, board_state: &mut Vec<Vec<f64>>) {
-        // this .clone() is probably suboptimal, its a tmp solution
-        // that needs a refactor.
-        let mut new_board: Vec<Vec<f64>> = board_state.clone();
-        for row in 0..self.board.height {
-            for col in 0..self.board.width {
-                let indices: Vec<(usize, usize)> = self.get_neighbours_indices(row, col);
-                let values = self.get_values_of_indices(indices, board_state);
-                let state = self.verify_state(board_state[col][row], values);
-                new_board[col][row] = state;
-            }
-        }
-        *board_state = new_board;
-    }
-
-    // pub fn print_board(&self) {
-    //     self.board.print()
-    // }
-    // pub fn get_board(&self) -> Vec<Vec<bool>> {
-    //     let board = self.board.get_board().clone();
-    //     board
-    // }
 }
