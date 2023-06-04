@@ -1,7 +1,5 @@
 import tkinter
 import tkinter.filedialog
-from copy import deepcopy
-
 from windows.rules_window import RulesWindow
 from windows.presets_window import PresetsWindow
 

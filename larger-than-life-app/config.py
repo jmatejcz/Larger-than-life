@@ -13,7 +13,7 @@ CELLS_X = 80
 CELLS_Y = 60
 
 # saving and animations
-MAX_ANIM_FRAMES = 500
+MAX_ANIM_FRAMES = 200
 MENU_STATE_PATH = 'resources/menu_state.npy'
 DATETIME_FORMAT = '%d-%m-%YT%H-%M-%S'
 
