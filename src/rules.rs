@@ -12,7 +12,6 @@ pub struct Rules {
     pub overpopulation_limit: usize,
     pub come_alive_condition: usize,
     pub neighborhood_range: usize,
-
 }
 
 impl Rules {

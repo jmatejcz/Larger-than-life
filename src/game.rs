@@ -7,6 +7,8 @@ use std::cmp;
 pub struct Game {
     pub board: Board,
     rules: Rules,
+    next_gen_board: Vec<Vec<f64>>,
+    board_state_history: Vec<Vec<Vec<f64>>>,
 }
 
 #[pymethods]
@@ -16,22 +18,22 @@ impl Game {
         Game {
             board: Board::new(width, height),
             rules: rules,
+            next_gen_board: vec![vec![0.0; height]; width],
+            board_state_history: Vec::new(),
         }
     }
 
-    pub fn next_generation(&mut self, board_state: Vec<Vec<f64>>) -> Vec<Vec<f64>>{
-        // this .clone() is probably suboptimal, its a tmp solution
-        // that needs a refactor.
-        let mut new_board: Vec<Vec<f64>> = board_state.clone();
+    pub fn next_generation(&mut self, board_state: Vec<Vec<f64>>) -> Vec<Vec<f64>> {
         for row in 0..self.board.height {
             for col in 0..self.board.width {
                 let indices: Vec<(usize, usize)> = self.get_neighbours_indices(row, col);
                 let values = self.get_values_of_indices(indices, &board_state);
                 let state = self.verify_state(board_state[col][row], values);
-                new_board[col][row] = state;
+                self.next_gen_board[col][row] = state;
             }
         }
-        new_board
+        self.board_state_history.push(board_state);
+        self.next_gen_board.clone()
     }
 
     pub fn update_rules(
@@ -46,13 +48,13 @@ impl Game {
         self.rules.come_alive_condition = come_alive_condition;
         self.rules.neighborhood_range = neighborhood_range;
     }
+    pub fn get_board_state_history(&self) -> Vec<Vec<Vec<f64>>> {
+        self.board_state_history.clone()
+    }
 }
 
 impl Game {
-    
-
     fn get_neighbours_indices(&self, row: usize, col: usize) -> Vec<(usize, usize)> {
-        // each cell has 9 neighbours? fix
         let mut indices: Vec<(usize, usize)> = Vec::new();
         let range: usize = self.rules.neighborhood_range;
 
@@ -104,7 +106,7 @@ impl Game {
             }
 
             return 1.0;
-        } else { 
+        } else {
             // cell is dead
             if alive_count == self.rules.come_alive_condition {
                 return 1.0;

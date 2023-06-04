@@ -6,6 +6,11 @@ import config
 import utils
 
 
+def calculate_next_state(game, state):
+    state = ltl_core.get_next_gen_board(game, state)
+    return np.array(state)
+
+
 def run(screen, state, game, to_state=None):
     if to_state is None:
         to_state = utils.reset_state()
@@ -17,7 +22,7 @@ def run(screen, state, game, to_state=None):
 
     running = False
     save_run = False
-    states_history = []
+    # states_history = []
 
     # main game loop
     while True:
@@ -44,6 +49,7 @@ def run(screen, state, game, to_state=None):
 
                 # return to menu
                 elif event.key == pygame.K_ESCAPE:
+                    states_history = game.get_board_state_history()
                     if save_run and len(states_history) > 0:
                         utils.save_animation(states_history, datetime)
                     return
@@ -61,7 +67,6 @@ def run(screen, state, game, to_state=None):
                 pygame.display.update()
 
         if running:
-            states_history.append(np.copy(state))
             state = np.array(game.next_generation(state))
             utils.update_visuals(screen=screen, state=state)
             pygame.display.update()
