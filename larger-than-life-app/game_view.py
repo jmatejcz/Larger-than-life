@@ -7,11 +7,6 @@ import config
 import utils
 
 
-def calculate_next_state(game, state):
-    state = ltl_core.get_next_gen_board(game, state)
-    return np.array(state)
-
-
 def run(screen, state, game, to_state=None):
     if to_state is None:
         to_state = utils.reset_state()
