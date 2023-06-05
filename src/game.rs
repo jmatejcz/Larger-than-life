@@ -51,6 +51,15 @@ impl Game {
     pub fn get_board_state_history(&self) -> Vec<Vec<Vec<f64>>> {
         self.board_state_history.clone()
     }
+
+    pub fn get_rules(&self) -> (usize, usize, usize, usize) {
+        (
+            self.rules.underpopulation_limit,
+            self.rules.overpopulation_limit,
+            self.rules.come_alive_condition,
+            self.rules.neighborhood_range,
+        )
+    }
 }
 
 impl Game {
