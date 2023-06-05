@@ -37,10 +37,10 @@ class HelpWindow:
         label_8 = customtkinter.CTkLabel(master=frame_1, justify=customtkinter.LEFT, text="S - save the game")
         label_8.pack()
 
-        self.button_ok = customtkinter.CTkButton(master=frame_1, command=self.save_callback, text="Ok")
+        self.button_ok = customtkinter.CTkButton(master=frame_1, command=self.ok_callback, text="Ok")
         self.button_ok.pack(pady=10, padx=10)
 
-    def save_callback(self):
+    def ok_callback(self):
         self.app.destroy()
 
     def run(self):
