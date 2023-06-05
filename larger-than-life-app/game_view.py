@@ -1,4 +1,3 @@
-import larger_than_life as ltl_core
 import threading
 import numpy as np
 import time
@@ -18,7 +17,6 @@ def run(screen, state, game, to_state=None):
 
     running = False
     save_run = False
-    # states_history = []
 
     # main game loop
     while True:
@@ -41,6 +39,7 @@ def run(screen, state, game, to_state=None):
                 # save
                 if event.key == pygame.K_s:
                     utils.save_starting_state(state, datetime)
+                    utils.save_game_rules(game.get_rules(), datetime)
                     save_run = True
 
                 # return to menu
@@ -48,7 +47,6 @@ def run(screen, state, game, to_state=None):
                     states_history = game.get_board_state_history()
                     if save_run and len(states_history) > 0:
                         threading.Thread(target=utils.save_animation, args=(states_history, datetime)).start()
-                        # utils.save_animation(states_history, datetime)
                     return
 
             # based on mouse input, change cell state

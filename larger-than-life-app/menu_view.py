@@ -67,5 +67,8 @@ def run():
                         game_view.run(screen=screen, state=state, game=game, to_state=to_state)
                         project_menu(screen, state)
 
+                elif event.key == pygame.K_h:  # open help
+                    popups.display_help()
+
         screen.fill(config.COLORS["BACKGROUND"])
         time.sleep(config.APP_DELAY_SEC)
