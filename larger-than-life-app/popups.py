@@ -4,7 +4,12 @@ from windows.rules_window import RulesWindow
 from windows.presets_window import PresetsWindow
 
 
-def prompt_file():
+def prompt_file() -> str:
+    """prompt window to chose file
+
+    :return: filename
+    :rtype: str
+    """
     top = tkinter.Tk()
     top.withdraw()
     file_name = tkinter.filedialog.askopenfilename(parent=top)
@@ -12,7 +17,12 @@ def prompt_file():
     return file_name
 
 
-def select_rules():
+def select_rules()->tuple:
+    """Get rules from rules prompt window
+
+    :return: tuple of ints values, representing rules
+    :rtype: tuple
+    """
     window = RulesWindow()
     window.run()
     underpopulation_limit = window.underpopulation_limit
@@ -22,8 +32,14 @@ def select_rules():
     return underpopulation_limit, overpopulation_limit, birth_condition, neighborhood_radius
 
 
-def select_preset():
+def select_preset() -> str:
+    """Get preset from preset prompt window
+
+    :return: preset name
+    :rtype: str
+    """
     window = PresetsWindow()
     window.run()
     selected_preset = window.selected_preset
+    print(type(selected_preset))
     return selected_preset

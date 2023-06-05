@@ -5,14 +5,20 @@ import time
 import pygame
 import config
 import utils
+from typing import Optional
 
 
-def calculate_next_state(game, state):
-    state = ltl_core.get_next_gen_board(game, state)
-    return np.array(state)
+def run(screen: pygame.surface.Surface, state: np.ndarray, game, to_state: Optional[np.ndarray]=None):
+    """Main funciton to run game
 
-
-def run(screen, state, game, to_state=None):
+    :param screen: pygame surface to display on
+    :type screen: pygame.surface.Surface
+    :param state: board state
+    :type state: np.ndarray
+    :param game: game object coming from ltl_core Rust library
+    :param to_state: change actual state to this state, defaults to None
+    :type to_state: Optional[np.ndarray], optional
+    """
     if to_state is None:
         to_state = utils.reset_state()
     state = utils.transition_states(
@@ -23,7 +29,6 @@ def run(screen, state, game, to_state=None):
 
     running = False
     save_run = False
-    # states_history = []
 
     # main game loop
     while True:
