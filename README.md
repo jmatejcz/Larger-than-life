@@ -21,13 +21,13 @@ and run:
 `python app.py`
 to start a game
 ## Guide / How to play
-Sterowanie:
-S - start. Przechodzi do ekranu gry.
-R - rules. Otwiera okno pozwalające na wybór zasad gry.
-P - presets. Otwiera okno wyboru ciekawych wzorów w Game of Life.
-L - load. Pozwala wczytać stan gry z pliku.
-H - help. Wyświetla okno pomocy.
-esc - Powrót do menu głównego.
+Controls:
+S - start. Go to game screen.
+R - rules. Opens window allowing to change rules.
+P - presets. Opens window to choose interesting patterns.
+L - load. Allows loading game state from file.
+H - help. Opens help window.
+esc - escaping to menu screen.
 ## Test
 To run Rust unit tests:\
 `cargo test`
