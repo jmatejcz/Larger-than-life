@@ -9,7 +9,7 @@ Welcome to larger than life's documentation!
 .. toctree::
    :maxdepth: 2
 
-   larger-than-life-app.rst
+   larger_than_life_app.rst
    modules.rst
 
 

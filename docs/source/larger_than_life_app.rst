@@ -1,53 +1,53 @@
-larger\-than\-life\-app package
+larger\_than\_life\_app package
 ===============================
 
 Submodules
 ----------
 
-larger\-than\-life\-app.app module
+larger\_than\_life\_app.app module
 ----------------------------------
 
-.. automodule:: larger-than-life-app.app
+.. automodule:: larger_than_life_app.app
    :members:
    :undoc-members:
    :show-inheritance:
 
-larger\-than\-life\-app.config module
+larger\_than\_life\_app.config module
 -------------------------------------
 
-.. automodule:: larger-than-life-app.config
+.. automodule:: larger_than_life_app.config
    :members:
    :undoc-members:
    :show-inheritance:
 
-larger\-than\-life\-app.game\_view module
+larger\_than\_life\_app.game\_view module
 -----------------------------------------
 
-.. automodule:: larger-than-life-app.game_view
+.. automodule:: larger_than_life_app.game_view
    :members:
    :undoc-members:
    :show-inheritance:
 
-larger\-than\-life\-app.menu\_view module
+larger\_than\_life\_app.menu\_view module
 -----------------------------------------
 
-.. automodule:: larger-than-life-app.menu_view
+.. automodule:: larger_than_life_app.menu_view
    :members:
    :undoc-members:
    :show-inheritance:
 
-larger\-than\-life\-app.popups module
+larger\_than\_life\_app.popups module
 -------------------------------------
 
-.. automodule:: larger-than-life-app.popups
+.. automodule:: larger_than_life_app.popups
    :members:
    :undoc-members:
    :show-inheritance:
 
-larger\-than\-life\-app.utils module
+larger\_than\_life\_app.utils module
 ------------------------------------
 
-.. automodule:: larger-than-life-app.utils
+.. automodule:: larger_than_life_app.utils
    :members:
    :undoc-members:
    :show-inheritance:
@@ -55,7 +55,7 @@ larger\-than\-life\-app.utils module
 Module contents
 ---------------
 
-.. automodule:: larger-than-life-app
+.. automodule:: larger_than_life_app
    :members:
    :undoc-members:
    :show-inheritance:
