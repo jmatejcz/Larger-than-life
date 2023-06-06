@@ -6,6 +6,7 @@ import numpy as np
 import time
 import pygame
 import config
+import json
 import larger_than_life as ltl_core
 
 
@@ -76,7 +77,18 @@ def save_starting_state(state: np.ndarray, dt_string:str):
     np.save(f'runs/game_{dt_string}', state)
 
 
-def save_animation(states: list, dt_string: str):
+def save_game_rules(rules, dt_string):
+    data = {
+        'underpopulation_limit': str(rules[0]),
+        'overpopulation_limit': str(rules[1]),
+        'birth_con': str(rules[2]),
+        'neighborhood_radius': str(rules[3])
+    }
+    with open(f'runs/rules_{dt_string}.json', 'w') as file:
+        json.dump(data, file)
+
+
+def save_animation(states, dt_string):
     """Saves the history of all states
 
     :param states: list of states, where every state is np.ndarray
@@ -152,5 +164,3 @@ def init_game(underpopulation_limit: str | int = config.UNDERPOP_LIM,
         width=config.CELLS_Y,
         height=config.CELLS_X,
     )
-
-

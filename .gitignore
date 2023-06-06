@@ -76,4 +76,6 @@ zpr_env/
 /zpr_env/
 
 larger-than-life-app/runs/*
+
+docs/
 docs/build

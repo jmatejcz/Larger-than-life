@@ -51,10 +51,29 @@ impl Game {
     pub fn get_board_state_history(&self) -> Vec<Vec<Vec<f64>>> {
         self.board_state_history.clone()
     }
+
+    pub fn get_rules(&self) -> (usize, usize, usize, usize) {
+        (
+            self.rules.underpopulation_limit,
+            self.rules.overpopulation_limit,
+            self.rules.come_alive_condition,
+            self.rules.neighborhood_range,
+        )
+    }
 }
 
 impl Game {
-    fn get_neighbours_indices(&self, row: usize, col: usize) -> Vec<(usize, usize)> {
+    pub fn new_default_rules(width: usize, height: usize) -> Game {
+        Game {
+            board: Board::new(width, height),
+            rules: Rules::new(2, 3, 3, 1),
+            next_gen_board: vec![vec![0.0; height]; width],
+            board_state_history: Vec::new(),
+        }
+    }
+    // TODO this funcs only need to be pub to be tested
+    // figure out how to make them public only to tests?
+    pub fn get_neighbours_indices(&self, row: usize, col: usize) -> Vec<(usize, usize)> {
         let mut indices: Vec<(usize, usize)> = Vec::new();
         let range: usize = self.rules.neighborhood_range;
 
@@ -63,9 +82,8 @@ impl Game {
 
         let end_x = cmp::min(col + range, self.board.width - 1) as usize;
         let end_y = cmp::min(row + range, self.board.height - 1) as usize;
-
-        for x in start_x..=end_x {
-            for y in start_y..=end_y {
+        for y in start_y..=end_y {
+            for x in start_x..=end_x {
                 if x == col && y == row {
                     continue;
                 }
@@ -75,7 +93,7 @@ impl Game {
         indices
     }
 
-    fn get_values_of_indices(
+    pub fn get_values_of_indices(
         &self,
         indices: Vec<(usize, usize)>,
         board_state: &Vec<Vec<f64>>,
@@ -87,7 +105,7 @@ impl Game {
         values
     }
 
-    fn verify_state(&self, current_state: f64, neighbours_values: Vec<f64>) -> f64 {
+    pub fn verify_state(&self, current_state: f64, neighbours_values: Vec<f64>) -> f64 {
         let mut alive_count: usize = 0;
         for val in neighbours_values {
             if val == 1.0 {
