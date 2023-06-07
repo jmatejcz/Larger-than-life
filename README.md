@@ -2,6 +2,7 @@
 An efficient `Larger Than Life` implementation combing the best of Python and Rust. [Learn more](https://conwaylife.com/wiki/Larger_than_Life)
 
 ## Installation
+Minimal python versin required is Python3.10.
 We recommend setting up virtual environment for a clean install and easy development.\
 `python -m venv env`
 
